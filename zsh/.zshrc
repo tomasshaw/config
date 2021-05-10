@@ -10,12 +10,6 @@ fi
 
 # Path to your oh-my-zsh installation.
 export ZSH="/home/tom/.oh-my-zsh"
-export ANDROID_HOME=$HOME/Android/Sdk
-export PATH=$PATH:$ANDROID_HOME/emulator
-export PATH=$PATH:$ANDROID_HOME/tools
-export PATH=$PATH:$ANDROID_HOME/tools/bin
-export PATH=$PATH:$ANDROID_HOME/platform-tools
-export REACT_TERMINAL=konsole
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -46,7 +40,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # export UPDATE_ZSH_DAYS=13
 
 # Uncomment the following line if pasting URLs and other text is messed up.
-# DISABLE_MAGIC_FUNCTIONS=true
+# DISABLE_MAGIC_FUNCTIONS="true"
 
 # Uncomment the following line to disable colors in ls.
 # DISABLE_LS_COLORS="true"
@@ -58,6 +52,8 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
+# Caution: this setting can cause issues with multiline prompts (zsh 5.7.1 and newer seem to work)
+# See https://github.com/ohmyzsh/ohmyzsh/issues/5765
 # COMPLETION_WAITING_DOTS="true"
 
 # Uncomment the following line if you want to disable marking untracked files
@@ -81,26 +77,29 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(git nvm zsh-syntax-highlighting zsh-autosuggestions)
 
-# Source NVM on shell start
-source /usr/share/nvm/init-nvm.sh
 source $ZSH/oh-my-zsh.sh
+source /usr/share/doc/fzf/examples/key-bindings.zsh
+source /usr/share/doc/fzf/examples/completion.zsh
 
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
+export FZF_DEFAULT_COMMAND='fdfind --type f --hidden --follow --exclude .git'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
 # if [[ -n $SSH_CONNECTION ]]; then
-export EDITOR='nvim'
-export BROWSER='google-chrome-stable'
+#   export EDITOR='vim'
 # else
 #   export EDITOR='mvim'
 # fi
+export EDITOR='nvim'
+#export BROWSER='google-chrome-stable'
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -114,115 +113,72 @@ export BROWSER='google-chrome-stable'
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias vim="nvim"
-alias ls="ls -lash --color=always"
-alias b="set_brightness"
-alias ba="get_brightness"
+alias ls="exa --long --header --git -a"
 alias ccc="xclip -sel clip"
-alias s="grep -nHriI"
-alias gt="git status"
-alias pdf="zathura"
+alias s="grep -nHriI --exclude-dir={.git,node_modules,build}"
 alias mkcd="mkdirAndCd"
+alias gpa="git_pull_recursive"
 
 eval $(thefuck --alias)
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+eval $(keychain --eval id_rsa -q)
 
-function set_brightness(){
-	ddcutil setvcp 10 $1 --display 1
-	ddcutil setvcp 10 $1 --display 2
-}
-function get_brightness(){
-	ddcutil getvcp 10 --display 1
-	ddcutil getvcp 10 --display 2
-}
-function mkdirAndCd () {
+mkdirAndCd () {
     mkdir -p -- "$1" &&
       cd -P -- "$1"
 }
+
 #VimOpenAll
-function voa () {
+voa () {
 	nvim -p ./**/*(.)
 }
-###-begin-npm-completion-###
-#
-# npm command completion script
-#
-# Installation: npm completion >> ~/.bashrc  (or ~/.zshrc)
-# Or, maybe: npm completion > /usr/local/etc/bash_completion.d/npm
-#
-
-if type complete &>/dev/null; then
-  _npm_completion () {
-    local words cword
-    if type _get_comp_words_by_ref &>/dev/null; then
-      _get_comp_words_by_ref -n = -n @ -n : -w words -i cword
-    else
-      cword="$COMP_CWORD"
-      words=("${COMP_WORDS[@]}")
-    fi
-
-    local si="$IFS"
-    IFS=$'\n' COMPREPLY=($(COMP_CWORD="$cword" \
-                           COMP_LINE="$COMP_LINE" \
-                           COMP_POINT="$COMP_POINT" \
-                           npm completion -- "${words[@]}" \
-                           2>/dev/null)) || return $?
-    IFS="$si"
-    if type __ltrim_colon_completions &>/dev/null; then
-      __ltrim_colon_completions "${words[cword]}"
-    fi
-  }
-  complete -o default -F _npm_completion npm
-elif type compdef &>/dev/null; then
-  _npm_completion() {
-    local si=$IFS
-    compadd -- $(COMP_CWORD=$((CURRENT-1)) \
-                 COMP_LINE=$BUFFER \
-                 COMP_POINT=0 \
-                 npm completion -- "${words[@]}" \
-                 2>/dev/null)
-    IFS=$si
-  }
-  compdef _npm_completion npm
-elif type compctl &>/dev/null; then
-  _npm_completion () {
-    local cword line point words si
-    read -Ac words
-    read -cn cword
-    let cword-=1
-    read -l line
-    read -ln point
-    si="$IFS"
-    IFS=$'\n' reply=($(COMP_CWORD="$cword" \
-                       COMP_LINE="$line" \
-                       COMP_POINT="$point" \
-                       npm completion -- "${words[@]}" \
-                       2>/dev/null)) || return $?
-    IFS="$si"
-  }
-  compctl -K _npm_completion npm
-fi
-###-end-npm-completion-###
-autoload -U add-zsh-hook
-load-nvmrc() {
-  [[ -a .nvmrc ]] || return
-  local node_version="$(nvm version)"
-  local nvmrc_path="$(nvm_find_nvmrc)"
-
-  if [ -n "$nvmrc_path" ]; then
-    local nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
-
-    if [ "$nvmrc_node_version" = "N/A" ]; then
-      nvm install
-    elif [ "$nvmrc_node_version" != "$node_version" ]; then
-      nvm use
-    fi
-  elif [ "$node_version" != "$(nvm version default)" ]; then
-    echo "Reverting to nvm default version"
-    nvm use default
+replace () {
+	grep -rl $1 . --exclude-dir=.git | xargs sed -i "s/$1/$2/g"
+}
+git_pull_recursive () {
+	find . -mindepth 1 -maxdepth 1 -type d -print -exec git -C {} pull \;
+}
+open_kali () {
+	docker run --tty --interactive kalilinux/kali-rolling /bin/bash
+}
+# Search a file with fzf inside a Tmux pane and then open it in an editor
+fzf_then_open_in_editor() {
+  local file=$(fzf-tmux)
+  # Open the file if it exists
+  if [ -n "$file" ]; then
+    # Use the default editor if it's defined, otherwise Vim
+    ${EDITOR:-vim} "$file"
   fi
 }
-add-zsh-hook chpwd load-nvmrc
-load-nvmrc
-# ~/morning.sh
+docker_erase_all () {
+	docker rm $(docker ps -aq)
+}
+docker_stop_all () {
+	docker stop $(docker ps -q)
+}
+ip_curr () {
+	hostname -I | awk '{print $1}'
+}
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+# zle -C fzf_then_open_in_editor
+# bindkey '\C-t' fzf_then_open_in_editor
+bindkey -s '\C-t' 'fzf_then_open_in_editor^M'
+
+# Gift from Pablo :)
+autoload -U up-line-or-beginning-search
+zle -N up-line-or-beginning-search
+
+autoload -U down-line-or-beginning-search
+zle -N down-line-or-beginning-search
+
+bindkey '^[k' up-line-or-beginning-search
+bindkey '^[j' down-line-or-beginning-search
+
+FZF_DEFAULT_OPTS="
+	--bind tab:toggle-out,shift-tab:toggle-in\
+	--bind alt-j:down,alt-k:up,ctrl-j:preview-down,ctrl-k:preview-up\
+	--color=dark\
+	--color=fg:-1,bg:-1,hl:#5fff87,fg+:-1,bg+:-1,hl+:#ffaf5f\
+	--color=info:#7aa6da,pointer:#ff87d7,marker:#ff87d7,spinner:#ff87d7"
