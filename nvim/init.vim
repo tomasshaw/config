@@ -6,6 +6,7 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'leafgarland/typescript-vim'
 Plug 'maxmellon/vim-jsx-pretty'
 Plug 'pangloss/vim-javascript'
+Plug 'jparise/vim-graphql'
 Plug 'dense-analysis/ale'
 Plug 'ianks/vim-tsx'
 Plug 'yuezk/vim-js'
@@ -21,6 +22,8 @@ Plug 'ekalinin/Dockerfile.vim'
 Plug 'morhetz/gruvbox'
 
 " Make it an IDE
+Plug 'kkoomen/vim-doge', { 'do': { -> doge#install() } }
+Plug 'editorconfig/editorconfig-vim'
 Plug 'preservim/nerdtree'
 Plug 'tpope/vim-fugitive'
 Plug 'mattn/emmet-vim'
@@ -36,7 +39,20 @@ au BufNewFile,BufRead *.tsx setlocal filetype=typescript.tsx
 " == AUTOCMD END ================================
 let g:jsx_ext_required = 0
 
-let g:coc_global_extensions = ['coc-tslint-plugin', 'coc-tsserver', 'coc-emmet', 'coc-css', 'coc-html', 'coc-json', 'coc-yank', 'coc-prettier', 'coc-eslint']
+let g:coc_global_extensions = [
+\ 'coc-styled-components',
+\ 'coc-react-refactor',
+\ 'coc-tslint-plugin',
+\ 'coc-prettier',
+\ 'coc-tsserver',
+\ 'coc-eslint',
+\ 'coc-emmet',
+\ 'coc-html',
+\ 'coc-json',
+\ 'coc-yank',
+\ 'coc-css'
+\ ]
+
 let g:ale_fixers = {
 \ 'javascript': ['prettier', 'eslint'],
 \ 'typescript': ['prettier', 'eslint'],
@@ -97,14 +113,15 @@ inoremap <silent><expr> <c-space> coc#refresh()
 
 "Intent
 set autoindent
-set smartindent
+"set smartindent
 "set cindent
 
-"Enable Syntax
 set t_Co=256
 syntax enable
 colorscheme gruvbox
 set background=dark
+" Transparent Background
+hi Normal guibg=NONE ctermbg=NONE
 
 "BackSpace
 set backspace=indent,eol,start
@@ -167,6 +184,13 @@ map <F8> <Plug>(ale_fix)
 map <F7> <Plug>(ale_toggle)
 vnoremap < <gv
 vnoremap > >gv
+
+" Source Vim configuration file and install plugins
+nnoremap <silent><leader>1 :source ~/.config/nvim/init.vim \| :PlugInstall<CR>
+
+" React refactor
+xmap <leader>r  <Plug>(coc-codeaction-selected)
+nmap <leader>r  <Plug>(coc-codeaction-selected)
 
 " FZF
 nnoremap <silent> <leader><space> :Files<CR>

@@ -114,6 +114,9 @@ export EDITOR='nvim'
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias vim="nvim"
 alias ls="exa --long --header --git -a"
+alias mv="mv -iv"
+alias cp="cp -riv"
+alias mkdir="mkdir -vp"
 alias ccc="xclip -sel clip"
 alias s="grep -nHriI --exclude-dir={.git,node_modules,build}"
 alias mkcd="mkdirAndCd"
@@ -157,6 +160,13 @@ docker_stop_all () {
 }
 ip_curr () {
 	hostname -I | awk '{print $1}'
+}
+weather () {
+	local URL="wttr.in?format=3"
+	if [ "$1" = "full" ] ; then
+		URL="wttr.in"
+	fi
+	curl $URL
 }
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
