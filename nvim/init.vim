@@ -11,6 +11,7 @@ Plug 'dense-analysis/ale'
 Plug 'ianks/vim-tsx'
 Plug 'yuezk/vim-js'
 Plug 'othree/yajs'
+Plug 'mxw/vim-jsx'
 
 " Fuzzy finder
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -184,6 +185,7 @@ map <F8> <Plug>(ale_fix)
 map <F7> <Plug>(ale_toggle)
 vnoremap < <gv
 vnoremap > >gv
+vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 
 " Source Vim configuration file and install plugins
 nnoremap <silent><leader>1 :source ~/.config/nvim/init.vim \| :PlugInstall<CR>
