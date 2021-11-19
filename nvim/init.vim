@@ -7,7 +7,6 @@ Plug 'leafgarland/typescript-vim'
 Plug 'maxmellon/vim-jsx-pretty'
 Plug 'pangloss/vim-javascript'
 Plug 'jparise/vim-graphql'
-Plug 'dense-analysis/ale'
 Plug 'ianks/vim-tsx'
 Plug 'yuezk/vim-js'
 Plug 'othree/yajs'
@@ -32,12 +31,17 @@ Plug 'mattn/emmet-vim'
 call plug#end()
 "== END ADD STUFF ================================
 
+" LEADER 
+let mapleader = ' '
+let g:user_emmet_leader_key=','
+
 " == AUTOCMD ================================ 
 " by default .ts file are not identified as typescript and .tsx files are not
 " identified as typescript react file, so add following
 au BufNewFile,BufRead *.ts setlocal filetype=typescript
 au BufNewFile,BufRead *.tsx setlocal filetype=typescript.tsx
 " == AUTOCMD END ================================
+
 let g:jsx_ext_required = 0
 
 let g:coc_global_extensions = [
@@ -53,29 +57,6 @@ let g:coc_global_extensions = [
 \ 'coc-yank',
 \ 'coc-css'
 \ ]
-
-let g:ale_fixers = {
-\ 'javascript': ['prettier', 'eslint'],
-\ 'typescript': ['prettier', 'eslint'],
-\ 'css': ['prettier', 'eslint'],
-\ 'json': ['prettier', 'eslint'],
-\ 'markdown': ['prettier']
-\ }
-
-let g:ale_linters = {
-\ 'javascript': ['prettier', 'prettier-eslint', 'eslint'],
-\ 'typescript': ['eslint', 'tsserver', 'prettier'],
-\ 'css': ['prettier','prettier-eslint', 'eslint'],
-\ 'json': ['prettier', 'eslint']
-\ }
-let g:ale_fix_on_save = 1
-let g:ale_javascript_prettier_use_local_config = 1
-let g:user_emmet_leader_key=','
-highlight ALEErrorSign ctermbg=NONE ctermfg=red
-highlight ALEWarningSign ctermbg=NONE ctermfg=yellow
-
-" LEADER 
-let mapleader = ' '
 
 "Mostrar tabs
 set list
@@ -112,10 +93,10 @@ inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 " Use <c-space> to trigger completion.
 inoremap <silent><expr> <c-space> coc#refresh()
 
-"Intent
-set autoindent
-"set smartindent
-"set cindent
+" Intent
+" set autoindent
+" set smartindent
+" set cindent
 
 set t_Co=256
 syntax enable
@@ -145,7 +126,6 @@ set softtabstop=4
 set shiftwidth=4
 set mouse=
 set number relativenumber
-" set relativenumber
 
 " resulados de busquedas resaltados
 set hlsearch
@@ -164,7 +144,7 @@ nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
-map <F2> :NERDTreeToggle <CR>
+map <F2> :NERDTreeToggle %<CR>
 
 " Tab control
 map <C-l> :tabn<CR>
@@ -179,13 +159,12 @@ map <C-6> :tabm 6<CR>
 map <C-7> :tabm 7<CR>
 map <C-8> :tabm 8<CR>
 map <C-9> :tabm 9<CR>
-nmap <silent> <C-k> <Plug>(ale_previous_wrap)
-nmap <silent> <C-j> <Plug>(ale_next_wrap)
-map <F8> <Plug>(ale_fix)
-map <F7> <Plug>(ale_toggle)
+nmap <silent> <C-k> <Plug>(coc-diagnostic-prev)
+nmap <silent> <C-j> <Plug>(coc-diagnostic-next)
+ map <F8> <Plug>(coc-codeaction)
+ map <F7> :CocCommand eslint.executeAutofix<CR>
 vnoremap < <gv
 vnoremap > >gv
-vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 
 " Source Vim configuration file and install plugins
 nnoremap <silent><leader>1 :source ~/.config/nvim/init.vim \| :PlugInstall<CR>
@@ -193,6 +172,8 @@ nnoremap <silent><leader>1 :source ~/.config/nvim/init.vim \| :PlugInstall<CR>
 " React refactor
 xmap <leader>r  <Plug>(coc-codeaction-selected)
 nmap <leader>r  <Plug>(coc-codeaction-selected)
+
+nmap <leader>rn <Plug>(coc-rename)
 
 " FZF
 nnoremap <silent> <leader><space> :Files<CR>
@@ -211,6 +192,9 @@ nnoremap <silent> <leader>gl :Commits<CR>
 nnoremap <silent> <leader>ga :BCommits<CR>
 " nnoremap <silent> <leader>ft :Filetypes<CR>
 
+" Add `:Fold` command to fold current buffer.
+command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+
 function! SearchWordWithAg()
   execute 'Ag' expand('<cword>')
 endfunction
@@ -226,6 +210,19 @@ function! SearchVisualSelectionWithAg() range
   let &clipboard = old_clipboard
   execute 'Ag' selection
 endfunction
+
+function! ShowDocIfNoDiagnostic(timer_id)
+  if (coc#float#has_float() == 0 && CocHasProvider('hover') == 1)
+    silent call CocActionAsync('doHover')
+  endif
+endfunction
+
+function! s:show_hover_doc()
+  call timer_start(500, 'ShowDocIfNoDiagnostic')
+endfunction
+
+autocmd CursorHoldI * :call <SID>show_hover_doc()
+autocmd CursorHold * :call <SID>show_hover_doc()
 
 ""folding para javascript
 "augroup javascript_folding
