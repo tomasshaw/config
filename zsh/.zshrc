@@ -5,48 +5,10 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
-
 # Path to your oh-my-zsh installation.
 export ZSH="/home/tom/.oh-my-zsh"
 
-# Set name of the theme to load --- if set to "random", it will
-# load a random theme each time oh-my-zsh is loaded, in which case,
-# to know which specific one was loaded, run: echo $RANDOM_THEME
-# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 ZSH_THEME="powerlevel10k/powerlevel10k"
-
-# Set list of themes to pick from when loading at random
-# Setting this variable when ZSH_THEME=random will cause zsh to load
-# a theme from this variable instead of looking in $ZSH/themes/
-# If set to an empty array, this variable will have no effect.
-# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
-
-# Uncomment the following line to use case-sensitive completion.
-# CASE_SENSITIVE="true"
-
-# Uncomment the following line to use hyphen-insensitive completion.
-# Case-sensitive completion must be off. _ and - will be interchangeable.
-# HYPHEN_INSENSITIVE="true"
-
-# Uncomment the following line to disable bi-weekly auto-update checks.
-# DISABLE_AUTO_UPDATE="true"
-
-# Uncomment the following line to automatically update without prompting.
-# DISABLE_UPDATE_PROMPT="true"
-
-# Uncomment the following line to change how often to auto-update (in days).
-# export UPDATE_ZSH_DAYS=13
-
-# Uncomment the following line if pasting URLs and other text is messed up.
-# DISABLE_MAGIC_FUNCTIONS="true"
-
-# Uncomment the following line to disable colors in ls.
-# DISABLE_LS_COLORS="true"
-
-# Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
 
 # Uncomment the following line to enable command auto-correction.
 # ENABLE_CORRECTION="true"
@@ -67,7 +29,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
 # or set a custom format using the strftime function format specifications,
 # see 'man strftime' for details.
-# HIST_STAMPS="mm/dd/yyyy"
+HIST_STAMPS="dd/mm/yyyy"
 
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
@@ -80,13 +42,13 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 plugins=(git nvm zsh-syntax-highlighting zsh-autosuggestions)
 
 source $ZSH/oh-my-zsh.sh
-source /usr/share/doc/fzf/examples/key-bindings.zsh
-source /usr/share/doc/fzf/examples/completion.zsh
+source /usr/share/fzf/key-bindings.zsh
+source /usr/share/fzf/completion.zsh
 
 # User configuration
 
-# export MANPATH="/usr/local/man:$MANPATH"
-export FZF_DEFAULT_COMMAND='fdfind --type f --hidden --follow --exclude .git'
+# fd arch / fdfind ubuntu - fedora
+export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 # You may need to manually set your language environment
@@ -100,6 +62,8 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 # fi
 export EDITOR='nvim'
 #export BROWSER='google-chrome-stable'
+export QWIRE_HOME=/home/tom/source/qwire/dev-setup/qw-tools
+PATH+=":$QWIRE_HOME"
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -116,32 +80,52 @@ alias vim="nvim"
 alias ls="exa --long --header --git -a"
 alias mv="mv -iv"
 alias cp="cp -riv"
-alias mkdir="mkdir -vp"
 alias ccc="xclip -sel clip"
 alias s="grep -nHriI --exclude-dir={.git,node_modules,build}"
 alias mkcd="mkdirAndCd"
+alias mkdir="mkdir -vp"
 alias gpa="git_pull_recursive"
+alias b="set_brightness"
+alias b1="set_brightness_2"
+alias b2="set_brightness_1"
+alias ba="get_brightness"
 
 eval $(thefuck --alias)
 eval $(keychain --eval id_rsa -q)
 
 mkdirAndCd () {
-    mkdir -p -- "$1" &&
+    mkdir -vp -- "$1" &&
       cd -P -- "$1"
 }
 
+set_brightness () {
+	ddcutil setvcp 10 $1 --display 1
+	ddcutil setvcp 10 $1 --display 2
+	ddcutil setvcp 10 $1 --display 3
+}
+set_brightness_1 () {
+	ddcutil setvcp 10 $1 --display 1
+}
+set_brightness_2 () {
+	ddcutil setvcp 10 $1 --display 2
+}
+set_brightness_3 () {
+	ddcutil setvcp 10 $1 --display 3
+}
+get_brightness () {
+	ddcutil getvcp 10 --display 1
+	ddcutil getvcp 10 --display 2
+	ddcutil getvcp 10 --display 3
+}
 #VimOpenAll
 voa () {
-	nvim -p ./**/*(.)
+	nvim -p ${1:-.}/**/*(.)
 }
 replace () {
 	grep -rl $1 . --exclude-dir=.git | xargs sed -i "s/$1/$2/g"
 }
 git_pull_recursive () {
 	find . -mindepth 1 -maxdepth 1 -type d -print -exec git -C {} pull \;
-}
-open_kali () {
-	docker run --tty --interactive kalilinux/kali-rolling /bin/bash
 }
 # Search a file with fzf inside a Tmux pane and then open it in an editor
 fzf_then_open_in_editor() {
@@ -160,13 +144,6 @@ docker_stop_all () {
 }
 ip_curr () {
 	hostname -I | awk '{print $1}'
-}
-weather () {
-	local URL="wttr.in?format=3"
-	if [ "$1" = "full" ] ; then
-		URL="wttr.in"
-	fi
-	curl $URL
 }
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
