@@ -2,7 +2,6 @@
 call plug#begin('~/.vim/plugged')
 
 " JS - JSX stuff
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'leafgarland/typescript-vim'
 Plug 'maxmellon/vim-jsx-pretty'
 Plug 'pangloss/vim-javascript'
@@ -18,11 +17,15 @@ Plug 'junegunn/fzf.vim'
 
 " Make it pretty
 Plug 'prettier/vim-prettier', { 'do': 'npm install' }
+Plug 'vim-airline/vim-airline'
 Plug 'ekalinin/Dockerfile.vim'
+Plug 'plasticboy/vim-markdown'
+Plug 'ryanoasis/vim-devicons'
 Plug 'morhetz/gruvbox'
 
 " Make it an IDE
 Plug 'kkoomen/vim-doge', { 'do': { -> doge#install() } }
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'editorconfig/editorconfig-vim'
 Plug 'preservim/nerdtree'
 Plug 'tpope/vim-fugitive'
@@ -42,8 +45,8 @@ au BufNewFile,BufRead *.ts setlocal filetype=typescript
 au BufNewFile,BufRead *.tsx setlocal filetype=typescript.tsx
 " == AUTOCMD END ================================
 
+let NERDTreeShowHidden=1
 let g:jsx_ext_required = 0
-
 let g:coc_global_extensions = [
 \ 'coc-styled-components',
 \ 'coc-react-refactor',
@@ -93,7 +96,7 @@ inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 " Use <c-space> to trigger completion.
 inoremap <silent><expr> <c-space> coc#refresh()
 
-" Intent
+" Intent -> some JS parser is breaking indentation :$
 " set autoindent
 " set smartindent
 " set cindent
@@ -118,6 +121,8 @@ set ruler
 set joinspaces
 set showmatch
 set showcmd
+set title
+set cursorline
 "set timeout timeoutlen=150
 set wildmenu
 set wildmode=list:longest
@@ -126,6 +131,11 @@ set softtabstop=4
 set shiftwidth=4
 set mouse=
 set number relativenumber
+
+set ic
+set smartcase
+setlocal iskeyword-=:
+set clipboard+=unnamedplus
 
 " resulados de busquedas resaltados
 set hlsearch
@@ -144,6 +154,7 @@ nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
+" File exploration
 map <F2> :NERDTreeToggle %<CR>
 
 " Tab control
@@ -159,10 +170,15 @@ map <C-6> :tabm 6<CR>
 map <C-7> :tabm 7<CR>
 map <C-8> :tabm 8<CR>
 map <C-9> :tabm 9<CR>
+
+" Jump to prev - next error
 nmap <silent> <C-k> <Plug>(coc-diagnostic-prev)
 nmap <silent> <C-j> <Plug>(coc-diagnostic-next)
- map <F8> <Plug>(coc-codeaction)
- map <F7> :CocCommand eslint.executeAutofix<CR>
+
+" <F6>: Prettier format <F7>: Eslint format <F8>: Open action menu
+ map <F6> :CocCommand eslint.executeAutofix<CR>
+ map <F7> <Plug>(coc-codeaction)
+ map <F8> :CocCommand prettier.formatFile<CR>
 vnoremap < <gv
 vnoremap > >gv
 
@@ -173,6 +189,7 @@ nnoremap <silent><leader>1 :source ~/.config/nvim/init.vim \| :PlugInstall<CR>
 xmap <leader>r  <Plug>(coc-codeaction-selected)
 nmap <leader>r  <Plug>(coc-codeaction-selected)
 
+" Rename
 nmap <leader>rn <Plug>(coc-rename)
 
 " FZF
@@ -188,9 +205,13 @@ nnoremap <silent> <leader>. :Ag<CR>
 nnoremap <silent> K :call SearchWordWithAg()<CR>
 vnoremap <silent> K :call SearchVisualSelectionWithAg()<CR>
 
+" Commits / Open Buffer commits / Set current file highlighting
 nnoremap <silent> <leader>gl :Commits<CR>
 nnoremap <silent> <leader>ga :BCommits<CR>
-" nnoremap <silent> <leader>ft :Filetypes<CR>
+nnoremap <silent> <leader>ft :Filetypes<CR>
+
+" Open current Git status
+nmap <C-g> :Git<CR>
 
 " Add `:Fold` command to fold current buffer.
 command! -nargs=? Fold :call     CocAction('fold', <f-args>)
@@ -218,7 +239,7 @@ function! ShowDocIfNoDiagnostic(timer_id)
 endfunction
 
 function! s:show_hover_doc()
-  call timer_start(500, 'ShowDocIfNoDiagnostic')
+  call timer_start(800, 'ShowDocIfNoDiagnostic')
 endfunction
 
 autocmd CursorHoldI * :call <SID>show_hover_doc()
@@ -230,7 +251,3 @@ autocmd CursorHold * :call <SID>show_hover_doc()
 "	au FileType javascript setlocal foldmethod=syntax
 "augroup END
 
-set ic
-set smartcase
-setlocal iskeyword-=:
-set clipboard+=unnamedplus

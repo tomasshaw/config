@@ -11,5 +11,15 @@
 		"css"
 	],
 	"tsserver.formatOnType": true,
-	"coc.preferences.formatOnType": true
+	"coc.preferences.formatOnType": true,
+	"eslint.probe": [
+		"javascript",
+		"javascriptreact",
+		"typescript",
+		"typescriptreact",
+		"html",
+		"vue",
+		"markdown",
+		"json"
+	]
 }
