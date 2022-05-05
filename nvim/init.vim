@@ -148,6 +148,11 @@ if has("autocmd")
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 endif
 
+" Open file in same folder
+map ,e :e <C-R>=expand("%:p:h") . "/" <CR>
+map ,t :tabe <C-R>=expand("%:p:h") . "/" <CR>
+map ,s :split <C-R>=expand("%:p:h") . "/" <CR>
+
 " Remap keys for gotos
 nmap <silent> gd :call CocAction('jumpDefinition', 'tab drop')<CR>
 nmap <silent> gy <Plug>(coc-type-definition)
@@ -175,10 +180,11 @@ map <C-9> :tabm 9<CR>
 nmap <silent> <C-k> <Plug>(coc-diagnostic-prev)
 nmap <silent> <C-j> <Plug>(coc-diagnostic-next)
 
-" <F6>: Prettier format <F7>: Eslint format <F8>: Open action menu
- map <F6> :CocCommand eslint.executeAutofix<CR>
- map <F7> <Plug>(coc-codeaction)
- map <F8> :CocCommand prettier.formatFile<CR>
+map <F6> :CocCommand eslint.executeAutofix<CR>
+map <F7> <Plug>(coc-codeaction)
+" Leaving f8 for now. both do the same
+map <F8> :CocCommand prettier.formatFile<CR>
+map <leader>f :CocCommand prettier.formatFile<CR>
 vnoremap < <gv
 vnoremap > >gv
 
