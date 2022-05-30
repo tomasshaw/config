@@ -39,7 +39,7 @@ HIST_STAMPS="dd/mm/yyyy"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git nvm zsh-syntax-highlighting zsh-autosuggestions)
+plugins=(git nvm thefuck gh docker docker-compose zsh-autosuggestions zsh-syntax-highlighting )
 
 source $ZSH/oh-my-zsh.sh
 source /usr/share/fzf/key-bindings.zsh
@@ -90,8 +90,7 @@ alias b1="set_brightness_2"
 alias b2="set_brightness_1"
 alias ba="get_brightness"
 
-eval $(thefuck --alias)
-eval $(keychain --eval id_rsa -q)
+# eval $(thefuck --alias)
 
 mkdirAndCd () {
     mkdir -vp -- "$1" &&
@@ -169,3 +168,7 @@ FZF_DEFAULT_OPTS="
 	--color=dark\
 	--color=fg:-1,bg:-1,hl:#5fff87,fg+:-1,bg+:-1,hl+:#ffaf5f\
 	--color=info:#7aa6da,pointer:#ff87d7,marker:#ff87d7,spinner:#ff87d7"
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion

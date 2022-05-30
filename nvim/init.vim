@@ -5,6 +5,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'leafgarland/typescript-vim'
 Plug 'maxmellon/vim-jsx-pretty'
 Plug 'pangloss/vim-javascript'
+Plug 'mogelbrod/vim-jsonpath'
 Plug 'jparise/vim-graphql'
 Plug 'ianks/vim-tsx'
 Plug 'yuezk/vim-js'
@@ -60,6 +61,9 @@ let g:coc_global_extensions = [
 \ 'coc-yank',
 \ 'coc-css'
 \ ]
+
+" Disable fugitive info (git branch info)
+let g:airline_section_b = ''
 
 "Mostrar tabs
 set list
