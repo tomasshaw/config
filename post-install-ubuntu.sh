@@ -1,7 +1,7 @@
 #!/bin/bash
 
-read -r -p "Warning: This will force and wipe everything.\nPlease don't run if you're not sure what you're doing.\nThis is intended for fresh ubuntu installs.\nContinue? [y/N] " areyousure
-if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]
+read -rep "Warning: This will force and wipe everything.\nPlease don't run if you're not sure what you're doing.\nThis is intended for fresh ubuntu installs.\nContinue? [y/N] " areyousure
+if [[ "$response" =~ [yY] ]]
 then
 	echo " Beginning instalation process "
 else
@@ -9,7 +9,7 @@ else
 	exit(420)
 fi
 
-read -r -p "Would you like to install X server? [y/N] " response
+read -rep "Would you like to install X server? [y/N] " response
 
 # Update packages
 echo " Updating packages "
