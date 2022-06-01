@@ -1,0 +1,29 @@
+Host server
+	HostName 192.168.0.12
+	User tom
+	Port 2580
+
+Host laptop
+	HostName 192.168.0.33
+	User tom
+	Port 2580
+	ForwardX11 yes
+	Compression yes
+
+Host main
+	HostName 192.168.0.11
+	User tom
+	Port 2580
+
+Host server-inet
+	HostName ssh.tom.net.ar
+	User tom
+	Port 2580
+
+Host vultr
+	HostName 149.28.111.140
+	User ubuntu
+	ForwardX11 yes
+	Compression yes
+#	LocalForward 5000 localhost:443
+#	LocalForward 5006 localhost:5006
