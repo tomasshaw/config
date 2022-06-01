@@ -1,12 +1,12 @@
 #!/bin/bash
 
-read -rep "Warning: This will force and wipe everything.\nPlease don't run if you're not sure what you're doing.\nThis is intended for fresh ubuntu installs.\nContinue? [y/N] " areyousure
+read -rep "Warning: This will force and wipe everything. Please don't run if you're not sure what you're doing. This is intended for fresh ubuntu installs. Continue? [y/N] " areyousure
 if [[ "$response" =~ [yY] ]]
 then
 	echo " Beginning instalation process "
 else
 	echo " Cancelling instalation process "
-	exit(420)
+	exit
 fi
 
 read -rep "Would you like to install X server? [y/N] " response
