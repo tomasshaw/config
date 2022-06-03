@@ -6,7 +6,7 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 # Path to your oh-my-zsh installation.
-export ZSH="/home/tom/.oh-my-zsh"
+export ZSH="/home/$USER/.oh-my-zsh"
 
 ZSH_THEME="powerlevel10k/powerlevel10k"
 
@@ -42,13 +42,13 @@ HIST_STAMPS="dd/mm/yyyy"
 plugins=(git nvm thefuck gh docker docker-compose zsh-autosuggestions zsh-syntax-highlighting )
 
 source $ZSH/oh-my-zsh.sh
-source /usr/share/fzf/key-bindings.zsh
-source /usr/share/fzf/completion.zsh
+source /usr/share/doc/fzf/examples/completion.zsh
+source /usr/share/doc/fzf/examples/key-bindings.zsh
 
 # User configuration
 
 # fd arch / fdfind ubuntu - fedora
-export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
+export FZF_DEFAULT_COMMAND='fdfind --type f --hidden --follow --exclude .git'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 # You may need to manually set your language environment
@@ -62,8 +62,6 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 # fi
 export EDITOR='nvim'
 #export BROWSER='google-chrome-stable'
-export QWIRE_HOME=/home/tom/source/qwire/dev-setup/qw-tools
-PATH+=":$QWIRE_HOME"
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -77,7 +75,8 @@ PATH+=":$QWIRE_HOME"
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias vim="nvim"
-alias ls="exa --long --header --git -a"
+alias ls="exa --long --header -a"
+#alias ls="exa --long --header --git -a"
 alias mv="mv -iv"
 alias cp="cp -riv"
 alias ccc="xclip -sel clip"

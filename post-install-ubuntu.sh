@@ -1,5 +1,7 @@
 #!/bin/bash
 
+command -v apt >/dev/null 2>&1 || { echo >&2 "apt is required, but it's not installed. Aborting."; exit 1; }
+
 read -rep "Warning: This will force and wipe everything. Please don't run if you're not sure what you're doing. This is intended for fresh ubuntu installs. Continue? [y/N] " areyousure
 if [[ "$response" =~ [yY] ]]
 then
@@ -25,6 +27,7 @@ sudo apt install -y \
 	exa \
 	neovim \
 	thefuck \
+	silversearcher-ag \
 
 # Install X server
 echo " Installing X packages "
