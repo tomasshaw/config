@@ -26,6 +26,7 @@ sudo apt install -y \
 	zsh \
 	exa \
 	neovim \
+	fd-find \
 	thefuck \
 	silversearcher-ag \
 
