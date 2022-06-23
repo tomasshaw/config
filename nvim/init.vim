@@ -59,10 +59,11 @@ let g:coc_global_extensions = [
 \ 'coc-html',
 \ 'coc-json',
 \ 'coc-yank',
+\ 'coc-git',
 \ 'coc-css'
 \ ]
 
-" Disable fugitive info (git branch info)
+" Disable fuGITive info (git branch info)
 let g:airline_section_b = ''
 
 "Mostrar tabs
