@@ -22,6 +22,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'ekalinin/Dockerfile.vim'
 Plug 'plasticboy/vim-markdown'
 Plug 'ryanoasis/vim-devicons'
+Plug 'ap/vim-css-color'
 Plug 'morhetz/gruvbox'
 
 " Make it an IDE
