@@ -29,8 +29,10 @@ Plug 'morhetz/gruvbox'
 Plug 'kkoomen/vim-doge', { 'do': { -> doge#install() } }
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'editorconfig/editorconfig-vim'
+Plug 'github/copilot.vim'
 Plug 'preservim/nerdtree'
 Plug 'tpope/vim-fugitive'
+Plug 'danro/rename.vim'
 Plug 'mattn/emmet-vim'
 
 call plug#end()
