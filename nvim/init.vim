@@ -22,6 +22,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'ekalinin/Dockerfile.vim'
 Plug 'plasticboy/vim-markdown'
 Plug 'ryanoasis/vim-devicons'
+Plug 'ap/vim-css-color'
 Plug 'morhetz/gruvbox'
 
 " Make it an IDE
@@ -29,8 +30,10 @@ Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' }
 Plug 'kkoomen/vim-doge', { 'do': { -> doge#install() } }
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'editorconfig/editorconfig-vim'
+Plug 'github/copilot.vim'
 Plug 'preservim/nerdtree'
 Plug 'tpope/vim-fugitive'
+Plug 'danro/rename.vim'
 Plug 'mattn/emmet-vim'
 
 call plug#end()
@@ -161,6 +164,7 @@ endif
 map ,e :e <C-R>=expand("%:p:h") . "/" <CR>
 map ,t :tabe <C-R>=expand("%:p:h") . "/" <CR>
 map ,s :split <C-R>=expand("%:p:h") . "/" <CR>
+map ,v :vsplit <C-R>=expand("%:p:h") . "/" <CR>
 
 " Remap keys for gotos
 nmap <silent> gd :call CocAction('jumpDefinition', 'tab drop')<CR>
