@@ -20,10 +20,11 @@ Host server-inet
 	User tom
 	Port 2580
 
-Host vultr
-	HostName 149.28.111.140
+Host br
+	HostName 216.238.105.96
 	User ubuntu
 	ForwardX11 yes
 	Compression yes
+	ServerAliveInterval 10
 #	LocalForward 5000 localhost:443
 #	LocalForward 5006 localhost:5006

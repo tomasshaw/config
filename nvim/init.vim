@@ -25,6 +25,7 @@ Plug 'ryanoasis/vim-devicons'
 Plug 'morhetz/gruvbox'
 
 " Make it an IDE
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' }
 Plug 'kkoomen/vim-doge', { 'do': { -> doge#install() } }
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'editorconfig/editorconfig-vim'
@@ -145,6 +146,9 @@ set clipboard+=unnamedplus
 " resulados de busquedas resaltados
 set hlsearch
 
+" Remove auto folding
+set nofoldenable
+
 "permite foldear funciones con za y zc en funcion de la sintaxis
 "set foldmethod=indent
 "set foldopen=all
@@ -200,6 +204,9 @@ nnoremap <silent><leader>1 :source ~/.config/nvim/init.vim \| :PlugInstall<CR>
 xmap <leader>r  <Plug>(coc-codeaction-selected)
 nmap <leader>r  <Plug>(coc-codeaction-selected)
 
+" Markdown Preview
+nnoremap <silent> <leader>mp :MarkdownPreview<CR>
+
 " Rename
 nmap <leader>rn <Plug>(coc-rename)
 
@@ -225,7 +232,7 @@ nnoremap <silent> <leader>ft :Filetypes<CR>
 nmap <C-g> :Git<CR>
 
 " Add `:Fold` command to fold current buffer.
-command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+" command! -nargs=? Fold :call     CocAction('fold', <f-args>)
 
 function! SearchWordWithAg()
   execute 'Ag' expand('<cword>')
