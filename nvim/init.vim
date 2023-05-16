@@ -235,6 +235,9 @@ nnoremap <silent> <leader>ft :Filetypes<CR>
 " Open current Git status
 nmap <C-g> :Git<CR>
 
+" Open Copilot
+nmap <C-c> :Copilot<CR>
+
 " Add `:Fold` command to fold current buffer.
 " command! -nargs=? Fold :call     CocAction('fold', <f-args>)
 
