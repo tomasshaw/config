@@ -1,3 +1,5 @@
+XAuthLocation /opt/X11/bin/xauth
+
 Host server
 	HostName 192.168.0.12
 	User tom
@@ -20,11 +22,7 @@ Host server-inet
 	User tom
 	Port 2580
 
-Host br
-	HostName 216.238.105.96
-	User ubuntu
-	ForwardX11 yes
-	Compression yes
-	ServerAliveInterval 10
-#	LocalForward 5000 localhost:443
-#	LocalForward 5006 localhost:5006
+Host github.com-thomasshawdevbase
+	HostName github.com
+	User git
+	IdentityFile ~/.ssh/github-thomas-devbase
