@@ -17,18 +17,26 @@ local sources = {
 	--   filetypes = { "json" },
 	-- },
 	formatting.stylua,
-	formatting.prettier,
+	formatting.prettier.with({
+		only_local = "node_modules/.bin",
+	}),
 	-- b.formatting.prettier_eslint,
-	formatting.eslint,
+	formatting.eslint.with({
+		only_local = "node_modules/.bin",
+	}),
 	-- b.formatting.stylelint,
 
 	-- diagnostics
-	diagnostics.eslint,
+	diagnostics.eslint.with({
+		only_local = "node_modules/.bin",
+	}),
 	diagnostics.tsc,
 	-- b.diagnostics.stylelint,
 
 	-- code_actions
-	code_actions.eslint,
+	code_actions.eslint.with({
+		only_local = "node_modules/.bin",
+	}),
 }
 
 null_ls.setup({

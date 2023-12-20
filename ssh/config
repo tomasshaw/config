@@ -22,7 +22,7 @@ Host server-inet
 	User tom
 	Port 2580
 
-Host github.com-thomasshawdevbase
-	HostName github.com
-	User git
-	IdentityFile ~/.ssh/github-thomas-devbase
+# Host github.com-thomasshawdevbase
+# 	HostName github.com
+# 	User git
+# 	IdentityFile ~/.ssh/github-thomas-devbase
