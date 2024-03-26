@@ -6,17 +6,17 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 # Path to your oh-my-zsh installation.
-export ZSH="/home/$USER/.oh-my-zsh"
+export ZSH="/Users/$USER/.oh-my-zsh"
 
 ZSH_THEME="powerlevel10k/powerlevel10k"
 
 # Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
+ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
 # Caution: this setting can cause issues with multiline prompts (zsh 5.7.1 and newer seem to work)
 # See https://github.com/ohmyzsh/ohmyzsh/issues/5765
-# COMPLETION_WAITING_DOTS="true"
+COMPLETION_WAITING_DOTS="true"
 
 # Uncomment the following line if you want to disable marking untracked files
 # under VCS as dirty. This makes repository status check for large repositories
@@ -39,17 +39,17 @@ HIST_STAMPS="dd/mm/yyyy"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git nvm thefuck gh docker docker-compose zsh-autosuggestions zsh-syntax-highlighting )
+plugins=(git nvm thefuck gh docker docker-compose macos zsh-autosuggestions zsh-syntax-highlighting )
 
 source $ZSH/oh-my-zsh.sh
-source /usr/share/doc/fzf/examples/completion.zsh
-source /usr/share/doc/fzf/examples/key-bindings.zsh
+# source /usr/share/doc/fzf/examples/completion.zsh
+# source /usr/share/doc/fzf/examples/key-bindings.zsh
 
 # User configuration
 
 # fd arch / fdfind ubuntu - fedora
-export FZF_DEFAULT_COMMAND='fdfind --type f --hidden --follow --exclude .git'
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+# export FZF_DEFAULT_COMMAND='fdfind --type f --hidden --follow --exclude .git'
+# export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
@@ -70,7 +70,7 @@ export EDITOR='nvim'
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
-#
+
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
@@ -88,8 +88,10 @@ alias b="set_brightness"
 alias b1="set_brightness_2"
 alias b2="set_brightness_1"
 alias ba="get_brightness"
+alias cd="z"
 
 # eval $(thefuck --alias)
+eval "$(zoxide init zsh)"
 
 mkdirAndCd () {
     mkdir -vp -- "$1" &&

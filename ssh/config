@@ -22,6 +22,8 @@ Host server-inet
 	User tom
 	Port 2580
 
+Host *
+  UseKeychain yes
 # Host github.com-thomasshawdevbase
 # 	HostName github.com
 # 	User git

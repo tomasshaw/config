@@ -1,4 +1,4 @@
-vim.opt.colorcolumn = "120"
+-- vim.opt.colorcolumn = "120"
 vim.opt.mouse = ""
 -- local autocmd = vim.api.nvim_create_autocmd
 
